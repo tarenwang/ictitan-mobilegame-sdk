@@ -12,6 +12,10 @@
 
 ### 客户端SDK接入
 
-1. [Android SDK 接入](client-android-sdk-overview.md)
-2. [iOS SDK 接入](client-ios-sdk-overview.md)
-3. [H5 SDK 接入](client-h5-sdk-overview.md)
+1. [Android SDK 基础功能接入](client-android-sdk-base.md)
+2. [iOS SDK 基础功能接入](client-ios-sdk-base.md)
+3. [H5 SDK 基础功能接入](client-h5-sdk-base.md)
+4. [Android SDK 分享功能接入](client-android-sdk-share.md)
+5. [iOS SDK 分享功能接入](client-ios-sdk-share.md)
+6. [H5 SDK 分享功能接入](client-h5-sdk-share.md)
+
