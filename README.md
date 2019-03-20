@@ -7,6 +7,8 @@
 1. [服务端API接入概述](server-api-overview.md)
 2. [登录验证](server-api-login-verification.md)
 3. [内购商品付款通知](server-api-payment-notification.md)
+4. [获取游戏区服列表](server-api-serverlist.md)
+5. [获取游戏角色列表](server-api-rolelist.md)
 
 ### 客户端SDK接入
 
