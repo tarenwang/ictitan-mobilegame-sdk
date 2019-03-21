@@ -95,7 +95,7 @@ public class GameProxyApplication implements IIctitanUnionApplicationListener {
 
 **其他注意事项**
 
-- 项目targetSdkVersion必须设置为<span style="color:red">17</span>
+- 项目targetSdkVersion必须设置为<span style="color:red">27</span>
 - Unity3D游戏工程关闭自动权限申请功能
 
 ```xml
@@ -237,7 +237,41 @@ IctitanUnionSDK.getInstance().logout();
 
 返回值：无；参数：无。（该接口为预留接口，部分渠道无此接口，游戏不需接入）
 
-#### 2.10 Activity生命周期(必接)
+#### 2.10 事件打点通用接口(必接)
+
+```java
+Map<String,Object> eventValue = new HashMap<String ,Object>();
+eventValue.put("score", 1000);
+
+// UpgradeLevel 为事件名称，请参考运营对接文档
+IctitanUnionSDK.getInstance().trackEvent(getApplicationContext(), "UpgradeLevel", eventValue);
+```
+
+#### 2.11 分享功能
+
+```java
+String shareId = "发行商平台分配的分享id";
+String shareParams = "分享的自定义参数，多参数用逗号分隔";
+IctitanUnionSDK.getInstance().shareToSocialNetwork(shareId, shareParams);
+```
+
+#### 2.12 应用权限动态申请
+
+```java
+IctitanUnionSDK.getInstance().requestPermission("android.permission.READ_EXTERNAL_STORAGE", "权限申请描述文字", new IctitanUnionPermissionCallback() {
+    @Override
+    public void onPermissionGranted() {
+        //玩家已授权该权限
+    }
+
+    @Override
+    public void onPermissionDenied() {
+        //玩家拒绝授权
+    }
+});
+```
+
+#### 2.13 Activity生命周期(必接)
 
 游戏主窗体中直接重写一下父类方法：
 
@@ -288,37 +322,61 @@ public void onBackPressed() {
 }
 ```
 
-#### 2.11 事件打点通用接口(必接)
-
-```java
-Map<String,Object> eventValue = new HashMap<String ,Object>();
-eventValue.put("score", 1000);
-
-// UpgradeLevel 为事件名称，请参考运营对接文档
-IctitanUnionSDK.getInstance().trackEvent(getApplicationContext(), "UpgradeLevel", eventValue);
-```
-
-#### 2.12 分享功能
-
-```java
-String shareId = "发行商平台分配的分享id";
-String shareParams = "分享的自定义参数，多参数用逗号分隔";
-IctitanUnionSDK.getInstance().shareToSocialNetwork(shareId, shareParams);
-```
-
 ### 三、平台回调
 
 当游戏Activity初始化时，定义IctitanUnion的回调方法
 
 ```java
 IctitanUnionSDK.getInstance().setSDKListener(new IIctitanUnionListener() {
-    ...
+    // 初始化回调
+    @Override
+    public void IctitanUnionInitCallback(int code, String result) {
+        ...
+    }
+
+    // 登陆回调
+    @Override
+    public void IctitanUnionLoginCallback(int code, String result, UnionSdkUser user) {
+        if (code == UnionSDKCallbackCode.CODE_LOGIN_SUCCESS) {
+            // user.accountId   帐号唯一标识
+            // user.token       登陆令牌
+            // user.channelId   渠道id
+            // user.gameId      游戏大区id
+            // user.avatarUrl   用户头像URL
+            // user.nickname    昵称
+            // user.type        帐号类型(facebook,google,apple,guest,amazon)    
+        }
+    }
+
+    // 注销回调
+    @Override
+    public void IctitanUnionLogoutCallback(int code, String result) {
+        ...
+    }
+
+    // 支付回调
+    @Override
+    public void IctitanUnionPayCallback(int code, String result) {
+        ...
+    }
+
+    // 退出游戏回调
+    @Override
+    public void IctitanUnionExitGameCallback(int code, String result) {
+        ...
+    }
+
+    // 分享回调
+    @Override
+    public void IctitanUnionShareToSocialNetworkCallback(int code, String result) {
+        ...
+    }
 }
 ```
 
-#### 3.1 回调参数
+#### 回调参数
 
-|参数|参数数值|参数说明|
+|code参数|参数数值|参数说明|
 |---|---|---|
 |UnionSDKCallbackCode.CODE\_NO\_NETWORK|0|网络连接失败|
 |UnionSDKCallbackCode.CODE\_INIT\_SUCCESS|1|初始化成功|
@@ -339,86 +397,6 @@ IctitanUnionSDK.getInstance().setSDKListener(new IIctitanUnionListener() {
 |UnionSDKCallbackCode.CODE\_SHARE\_SUCCESS|16|分享成功|
 |UnionSDKCallbackCode.CODE\_SHARE\_FAIL|17|分享失败|
 |UnionSDKCallbackCode.CODE\_SHARE\_CANCEL|18|分享取消|
-
-#### 3.2 初始化回调(必接)
-
-```java
-@Override
-public void IctitanUnionInitCallback(int code, String result) {
-    ...
-}
-```
-
-#### 3.3 登陆回调(必接)
-
-```java
-@Override
-public void IctitanUnionLoginCallback(int code, String result, UnionSdkUser user) {
-    ...
-}
-```
-
-登陆成功并进行登陆认证后返回给游戏
-
-<span style="color:red">（注意：如果当前游戏属于登陆状态请退出当前游戏账号，使用新登陆账号重新登陆游戏。）</span>
-
-返回值：无；参数：code返回码；result扩展参数；UnionSdkUser 登陆成功对象。
-
-|参数|参数说明|
-|---|---|
-|userId|帐号唯一标识|
-|token|登陆令牌|
-|channelId|渠道id|
-|gameId|游戏大区id|
-|avatarUrl|用户头像URL|
-|username|用户名|
-|nickname|用户昵称|
-
-#### 3.4 账户注销回调
-
-```java
-@Override
-public void IctitanUnionLogoutCallback(int code, String result) {
-    ...
-}
-```
-
-第三方平台账户注销成功，通知游戏注销并返回游戏登陆页面
-
-返回值：无；参数：code返回码；result扩展参数。
-
-#### 3.5 支付回调
-
-```java
-@Override
-public void IctitanUnionPayCallback(int code, String result) {
-    ...
-}
-```
-
-返回值：无；参数：code返回码；result扩展参数。
-
-#### 3.6 退出游戏回调
-
-```java
-@Override
-public void IctitanUnionExitGameCallback(int code, String result) {
-    ...
-}
-```
-
-返回值：无；参数：code返回码；result扩展参数。
-
-#### 3.7 分享回调
-
-```java
-@Override
-public void IctitanUnionShareToSocialNetworkCallback(int code, String result) {
-    ...
-}
-```
-
-返回值：无；参数：code返回码；result扩展参数。
 
 ### 四、打包注意事项
 

@@ -38,7 +38,7 @@ POST
 |originalAmount|是|decimal(14,2)|汇率兑换前原始付款金额 300.00|
 |originalRate|是|string|付款货币与默认货币汇率 0.03473122|
 |paymentStatus|是|string|交易状态 <br />completed 交易成功|
-|channelId|是|string|付款渠道|
+|paymentChannelId|是|string|付款渠道|
 |mode|是|string|live 正式交易，sandbox 测试交易（最终以账单为准）|
 |signature|是|string|签名 [参考签名规则](server-api-overview.md#签名规则)|
 
