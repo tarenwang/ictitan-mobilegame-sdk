@@ -6,7 +6,9 @@
 
 ### 请求地址
 
-https://api.onesdk.ictitan.com/verify/unionAuthentication
+https://发行域名/verify/unionAuthentication
+
+具体地址由发行商提供
 
 ### 流程图
 
@@ -54,7 +56,7 @@ POST
 $appId = 1000;
 // appSecet（等同于clientSecret）
 $appSecret = 'bf777d95077720953a67d367e0a6628';
-$api = 'https://api.onesdk.ictitan.com/verify/unionAuthentication';
+$api = 'https://发行域名/verify/unionAuthentication';
 
 $params['appId'] = $appId;
 $params['accountId'] = 10000017;
