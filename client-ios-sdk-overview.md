@@ -329,6 +329,8 @@ IctitanUnionPaymentParam *param = [[IctitanUnionPaymentParam alloc] init];
 [param setServerName:@"玩家所在服务器名"];
 [param setRoleId:@"玩家的游戏角色ID"];
 [param setRoleName:@"玩家的游戏角色名"];
+[param setRoleLevel:@"玩家的角色等级"];
+[param setRoleProfession:@"玩家的角色职业，没有可传空字符串"];
 [param setProductId:@"游戏中商品ID"];
 [param setDescription:@"商品描述"];
 [param setAmount:@"购买该商品所需金额，如：1.0"];
