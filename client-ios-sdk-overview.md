@@ -296,6 +296,19 @@ NSString *profession = @"创建的角色对应职业";
 [[IctitanUnionSDK shareInstance] createGameRole:serverId andServerName:serverName andRoleId:roleId andRoleName:roleName andProfession:profession];
 ```
 
+当玩家角色进入游戏的时候需要上报角色信息
+
+```objective-c
+NSString *serverId = @"玩家所选服务器ID";
+NSString *serverName = @"玩家所选服务器名字";
+NSString *roleId = @"创建的角色ID";
+NSString *roleName = @"创建的角色名字";
+NSString *profession = @"角色对应职业";
+NSString *level = @"角色等级";
+// 进入游戏上报
+[[IctitanUnionSDK shareInstance] roleEnterGame:serverId andServerName:serverName andRoleId:roleId andRoleName:roleName andProfession:profession andLevel:level];
+```
+
 当玩家角色等级升级时上报
 
 ```objective-c
@@ -303,9 +316,10 @@ NSString *serverId = @"玩家所选服务器ID";
 NSString *serverName = @"玩家所选服务器名字";
 NSString *roleId = @"角色ID";
 NSString *roleName = @"角色名字";
+NSString *profession = @"角色对应职业";
 NSString *level = @"角色等级";
 // 等级升级上报
-[[IctitanUnionSDK shareInstance] roleLevelUpgrade:serverId andServerName:serverName andRoleId:roleId andRoleName:roleName andLevel:level];
+[[IctitanUnionSDK shareInstance] roleLevelUpgrade:serverId andServerName:serverName andRoleId:roleId andRoleName:roleName andProfession:profession andLevel:level];
 ```
 
 #### 2.6 支付

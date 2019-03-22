@@ -156,6 +156,19 @@ String profession = "创建的角色对应职业";
 IctitanUnionSDK.getInstance().createGameRole(serverId, serverName, roleId, roleName, profession);
 ```
 
+当玩家角色进入游戏的时候需要上报角色信息
+
+```java
+String serverId = "玩家所选服务器ID";
+String serverName = "玩家所选服务器名字";
+String roleId = "创建的角色ID";
+String roleName = "创建的角色名字";
+String profession = "角色对应职业";
+String level = "角色等级";
+// 进入游戏上报
+IctitanUnionSDK.getInstance().roleEnterGame(serverId, serverName, roleId, roleName, profession, level);
+```
+
 当玩家角色等级升级时上报
 
 ```java
@@ -163,9 +176,10 @@ String serverId = "玩家所选服务器ID";
 String serverName = "玩家所选服务器名字";
 String roleId = "角色ID";
 String roleName = "角色名字";
+String profession = "角色对应职业";
 String level = "角色等级";
 // 等级升级上报
-IctitanUnionSDK.getInstance().roleLevelUpgrade(serverId, serverName, roleId, roleName, level);
+IctitanUnionSDK.getInstance().roleLevelUpgrade(serverId, serverName, roleId, roleName, profession, level);
 ```
 
 #### 2.4 支付(必接)
