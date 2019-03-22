@@ -181,7 +181,7 @@ float amount = 1f;
 String currency = "USD";
 String extra = "支付成功时原样返回至游戏服务器的额外参数";
 // 进行支付
-IctitanUnionSDK.getInstance().paymentDefault(new IctitanUnionPaymentParam(serverId, serverName, roleId, roleName, productId, description, amount, currency, extra));
+IctitanUnionSDK.getInstance().pay(new IctitanUnionPaymentParam(serverId, serverName, roleId, roleName, productId, description, amount, currency, extra));
 ```
 
 整个支付流程如下：
