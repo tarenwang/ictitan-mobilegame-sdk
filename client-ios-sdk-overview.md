@@ -18,6 +18,8 @@
 源码方式添加如下：
 
 ```xml
+<key>IctitanUnionAppId</key>
+<string>{AppId}</string>
 <key>IctitanUnionGameId</key>
 <string>{GameId}</string>
 <key>IctitanUnionChannelId</key>

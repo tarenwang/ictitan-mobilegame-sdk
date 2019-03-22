@@ -87,6 +87,7 @@ public class GameProxyApplication implements IIctitanUnionApplicationListener {
 配置默认的游戏测试大区ID和渠道ID
 
 ```xml
+<meta-data android:name="ICTITAN_UNION_APP_ID" android:value="{AppId}" />
 <meta-data android:name="ICTITAN_UNION_GAME_ID" android:value="{GameId}" />
 <meta-data android:name="ICTITAN_UNION_CHANNEL_ID" android:value="{ChannelId}" />
 ```
