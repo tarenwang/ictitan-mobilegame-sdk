@@ -13,7 +13,7 @@
 
 **当游戏没有定义过自己的Application时**
 
-application下配置icon属性及name属性为com.towersdk.union.android.TowerUnionApplication如下：
+application下配置icon属性及name属性为com.towersdk.union.android.IctitanUnionApplication
 
 ```xml
 <application
@@ -87,8 +87,8 @@ public class GameProxyApplication implements IIctitanUnionApplicationListener {
 配置默认的游戏测试大区ID和渠道ID
 
 ```xml
-<meta-data android:name="ICTITAN_UNION_GAME_ID" android:value="xxxxx" />
-<meta-data android:name="ICTITAN_UNION_CHANNEL_ID" android:value="xxxxx" />
+<meta-data android:name="ICTITAN_UNION_GAME_ID" android:value="{GameId}" />
+<meta-data android:name="ICTITAN_UNION_CHANNEL_ID" android:value="{ChannelId}" />
 ```
 
 导入`ictitan-union-xxx.jar`、`httpcore-4.4.9.jar`和`httpclient-4.5.5.jar`并引入该jar包
@@ -141,31 +141,31 @@ IctitanUnionSDK.getInstance().login();
 String serverId = "玩家所选服务器ID";
 String serverName = "玩家所选服务器名字";
 // 登录游戏服上报
-IctitanUnionSDK.getInstance().reportGameServer(serverID, serverName);
+IctitanUnionSDK.getInstance().reportGameServer(serverId, serverName);
 ```
 
 当玩家创建角色的时候需要上报新角色信息
 
 ```java
-String serverID = "玩家所选服务器ID";
+String serverId = "玩家所选服务器ID";
 String serverName = "玩家所选服务器名字";
-String roleID = "创建的角色ID";
+String roleId = "创建的角色ID";
 String roleName = "创建的角色名字";
 String profession = "创建的角色对应职业";
 // 创角上报
-IctitanUnionSDK.getInstance().createGameRole(serverID, serverName, roleID, roleName, profession);
+IctitanUnionSDK.getInstance().createGameRole(serverId, serverName, roleId, roleName, profession);
 ```
 
 当玩家角色等级升级时上报
 
 ```java
-String serverID = "玩家所选服务器ID";
+String serverId = "玩家所选服务器ID";
 String serverName = "玩家所选服务器名字";
-String roleID = "角色ID";
+String roleId = "角色ID";
 String roleName = "角色名字";
 String level = "角色等级";
 // 等级升级上报
-IctitanUnionSDK.getInstance().roleLevelUpgrade(serverID, serverName, roleID, roleName, level);
+IctitanUnionSDK.getInstance().roleLevelUpgrade(serverId, serverName, roleId, roleName, level);
 ```
 
 #### 2.4 支付(必接)
@@ -175,7 +175,7 @@ String serverId = "玩家所在服务器ID，不可为空或0";
 String serverName = "玩家所在服务器名";
 String roleId = "玩家的游戏角色ID";
 String roleName = "玩家的游戏角色名";
-String productId = "我方提供的GooglePlay商品ID";
+String productId = "游戏中商品ID";
 String description = "商品描述";
 float amount = 1f;
 String currency = "USD";
@@ -224,7 +224,7 @@ IctitanUnionSDK.getInstance().showUserCenter();
 #### 2.8 浮窗控制(选接)
 
 ```java
-IctitanUnionSDK.getInstance().showFloatMenu(isshow);
+IctitanUnionSDK.getInstance().showOrHiddenFloatMenu(isShow);
 ```
 
 返回值：无；参数：true为显示窗，false为关闭浮窗。（部分渠道无此接口，暂只支持部分渠道）
@@ -240,18 +240,21 @@ IctitanUnionSDK.getInstance().logout();
 #### 2.10 事件打点通用接口(必接)
 
 ```java
-Map<String,Object> eventValue = new HashMap<String ,Object>();
-eventValue.put("score", 1000);
+Map<String,Object> eventParams = new HashMap<String ,Object>();
+eventParams.put("level", 20);
+eventParams.put("utype", "task");
 
 // UpgradeLevel 为事件名称，请参考运营对接文档
-IctitanUnionSDK.getInstance().trackEvent(getApplicationContext(), "UpgradeLevel", eventValue);
+IctitanUnionSDK.getInstance().trackEvent("UpgradeLevel", eventParams);
 ```
 
 #### 2.11 分享功能
 
 ```java
 String shareId = "发行商平台分配的分享id";
-String shareParams = "分享的自定义参数，多参数用逗号分隔";
+Map<String,Object> shareParams = new HashMap<String ,Object>();
+shareParams.put("displayName", "你好啊");
+
 IctitanUnionSDK.getInstance().shareToSocialNetwork(shareId, shareParams);
 ```
 
