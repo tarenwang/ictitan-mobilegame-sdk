@@ -5,7 +5,7 @@
 ### 准备阶段
 
 - 需要先将游戏内的可购买商品列表发送给发行商，物品属性包含物品id、物品价格、物品在游戏中对应的点数、物品描述等
-- 发行商像开发商提供`appId`、`appSecret`、`gameId`、`channelId`等配置信息
+- 发行商像开发商提供`appId`、`appSecret`、`channelId`等配置信息
 
 ### 一、游戏配置
 
@@ -13,15 +13,13 @@
 
 **配置游戏聚合平台参数**
 
-在`Info.plist`里添加**游戏大区ID**和**游戏渠道ID**，其中的`string`值是IctitanUnion平台分配的值
+在`Info.plist`里添加**游戏ID**和**游戏渠道ID**，其中的`string`值是IctitanUnion平台分配的值
 
 源码方式添加如下：
 
 ```xml
 <key>IctitanUnionAppId</key>
 <string>{AppId}</string>
-<key>IctitanUnionGameId</key>
-<string>{GameId}</string>
 <key>IctitanUnionChannelId</key>
 <string>{ChannelId}</string>
 ```
@@ -216,7 +214,7 @@
     // user.accountId   帐号唯一标识
     // user.token       登陆令牌
     // user.channelId   渠道id
-    // user.gameId      游戏大区id
+    // user.appId       游戏id
     // user.avatarUrl   用户头像URL
     // user.nickname    昵称
     // user.type        帐号类型(facebook,google,apple,guest,amazon)    

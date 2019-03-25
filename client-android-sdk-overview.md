@@ -5,7 +5,7 @@
 ### 准备阶段
 
 - 需要先将游戏内的可购买商品列表发送给发行商，物品属性包含物品id、物品价格、物品在游戏中对应的点数、物品描述等
-- 发行商像开发商提供`appId`、`appSecret`、`gameId`、`channelId`等配置信息
+- 发行商像开发商提供`appId`、`appSecret`、`channelId`等配置信息
 
 ### 一、游戏配置
 
@@ -88,7 +88,6 @@ public class GameProxyApplication implements IIctitanUnionApplicationListener {
 
 ```xml
 <meta-data android:name="ICTITAN_UNION_APP_ID" android:value="{AppId}" />
-<meta-data android:name="ICTITAN_UNION_GAME_ID" android:value="{GameId}" />
 <meta-data android:name="ICTITAN_UNION_CHANNEL_ID" android:value="{ChannelId}" />
 ```
 
@@ -361,7 +360,7 @@ IctitanUnionSDK.getInstance().setSDKListener(new IIctitanUnionListener() {
             // user.accountId   帐号唯一标识
             // user.token       登陆令牌
             // user.channelId   渠道id
-            // user.gameId      游戏大区id
+            // user.appId       游戏id
             // user.avatarUrl   用户头像URL
             // user.nickname    昵称
             // user.type        帐号类型(facebook,google,apple,guest,amazon)    
