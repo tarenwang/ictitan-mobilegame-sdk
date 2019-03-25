@@ -275,41 +275,7 @@
 
 #### 2.5 游戏服角色信息上报
 
-当玩家选择游戏服后需要上报游戏服信息
-
-```objective-c
-NSString *serverId = @"玩家所选服务器ID";
-NSString *serverName = @"玩家所选服务器名字";
-// 登录游戏服上报
-[[IctitanUnionSDK shareInstance] reportGameServer:serverId andServerName:serverName];
-```
-
-当玩家创建角色的时候需要上报新角色信息
-
-```objective-c
-NSString *serverId = @"玩家所选服务器ID";
-NSString *serverName = @"玩家所选服务器名字";
-NSString *roleID = @"创建的角色ID";
-NSString *roleName = @"创建的角色名字";
-NSString *profession = @"创建的角色对应职业";
-// 创角上报
-[[IctitanUnionSDK shareInstance] createGameRole:serverId andServerName:serverName andRoleId:roleId andRoleName:roleName andProfession:profession];
-```
-
-当玩家角色进入游戏的时候需要上报角色信息
-
-```objective-c
-NSString *serverId = @"玩家所选服务器ID";
-NSString *serverName = @"玩家所选服务器名字";
-NSString *roleId = @"创建的角色ID";
-NSString *roleName = @"创建的角色名字";
-NSString *profession = @"角色对应职业";
-NSString *level = @"角色等级";
-// 进入游戏上报
-[[IctitanUnionSDK shareInstance] roleEnterGame:serverId andServerName:serverName andRoleId:roleId andRoleName:roleName andProfession:profession andLevel:level];
-```
-
-当玩家角色等级升级时上报
+当玩家创建角色、进入游戏、角色等级升级的时候需要上报新角色信息
 
 ```objective-c
 NSString *serverId = @"玩家所选服务器ID";
@@ -318,8 +284,13 @@ NSString *roleId = @"角色ID";
 NSString *roleName = @"角色名字";
 NSString *profession = @"角色对应职业";
 NSString *level = @"角色等级";
+// ROLE_EVENT_TYPE角色事件类型:
+// ROLE_EVENT_TYPE_CREATE           创角
+// ROLE_EVENT_TYPE_ENTERGAME        进入游戏
+// ROLE_EVENT_TYPE_LEVELUPGRADE     升级
+ROLE_EVENT_TYPE type = ROLE_EVENT_TYPE_CREATE;
 // 等级升级上报
-[[IctitanUnionSDK shareInstance] roleLevelUpgrade:serverId andServerName:serverName andRoleId:roleId andRoleName:roleName andProfession:profession andLevel:level];
+[[IctitanUnionSDK shareInstance] roleLevelUpgrade:type andServerId:serverId andServerName:serverName andRoleId:roleId andRoleName:roleName andProfession:profession andLevel:level];
 ```
 
 #### 2.6 支付

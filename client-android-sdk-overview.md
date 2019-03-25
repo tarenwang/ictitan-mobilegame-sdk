@@ -135,28 +135,7 @@ IctitanUnionSDK.getInstance().login();
 
 #### 2.3 游戏服角色信息上报(必接)
 
-当玩家选择游戏服后需要上报游戏服信息
-
-```java
-String serverId = "玩家所选服务器ID";
-String serverName = "玩家所选服务器名字";
-// 登录游戏服上报
-IctitanUnionSDK.getInstance().reportGameServer(serverId, serverName);
-```
-
-当玩家创建角色的时候需要上报新角色信息
-
-```java
-String serverId = "玩家所选服务器ID";
-String serverName = "玩家所选服务器名字";
-String roleId = "创建的角色ID";
-String roleName = "创建的角色名字";
-String profession = "创建的角色对应职业";
-// 创角上报
-IctitanUnionSDK.getInstance().createGameRole(serverId, serverName, roleId, roleName, profession);
-```
-
-当玩家角色进入游戏的时候需要上报角色信息
+当玩家创建角色、进入游戏、角色等级升级的时候需要上报新角色信息
 
 ```java
 String serverId = "玩家所选服务器ID";
@@ -165,21 +144,13 @@ String roleId = "创建的角色ID";
 String roleName = "创建的角色名字";
 String profession = "角色对应职业";
 String level = "角色等级";
+// RoleEventType角色事件类型:
+// RoleEventType.Create         创角
+// RoleEventType.EnterGame      进入游戏
+// RoleEventType.LevelUpgrade   升级
+RoleEventType type = RoleEventType.Create;
 // 进入游戏上报
-IctitanUnionSDK.getInstance().roleEnterGame(serverId, serverName, roleId, roleName, profession, level);
-```
-
-当玩家角色等级升级时上报
-
-```java
-String serverId = "玩家所选服务器ID";
-String serverName = "玩家所选服务器名字";
-String roleId = "角色ID";
-String roleName = "角色名字";
-String profession = "角色对应职业";
-String level = "角色等级";
-// 等级升级上报
-IctitanUnionSDK.getInstance().roleLevelUpgrade(serverId, serverName, roleId, roleName, profession, level);
+IctitanUnionSDK.getInstance().reportRoleInfo(type, serverId, serverName, roleId, roleName, profession, level);
 ```
 
 #### 2.4 支付(必接)
