@@ -150,7 +150,7 @@ String level = "角色等级";
 // RoleEventType.LevelUpgrade   升级
 RoleEventType type = RoleEventType.Create;
 // 进入游戏上报
-IctitanUnionSDK.getInstance().reportRoleInfo(type, serverId, serverName, roleId, roleName, profession, level);
+IctitanUnionSDK.getInstance().reportRoleInfo(new IctitanUnionRoleInfoParam(type, serverId, serverName, roleId, roleName, profession, level));
 ```
 
 #### 2.4 支付(必接)

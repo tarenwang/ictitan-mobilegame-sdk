@@ -278,19 +278,20 @@
 当玩家创建角色、进入游戏、角色等级升级的时候需要上报新角色信息
 
 ```objective-c
-NSString *serverId = @"玩家所选服务器ID";
-NSString *serverName = @"玩家所选服务器名字";
-NSString *roleId = @"角色ID";
-NSString *roleName = @"角色名字";
-NSString *profession = @"角色对应职业";
-NSString *level = @"角色等级";
+IctitanUnionRoleInfoParam *param = [[IctitanUnionRoleInfoParam alloc] init];
+[param setServerId:@"玩家所在服务器ID，不可为空或0"];
+[param setServerName:@"玩家所在服务器名"];
+[param setRoleId:@"玩家的游戏角色ID"];
+[param setRoleName:@"玩家的游戏角色名"];
+[param setRoleLevel:@"玩家的角色等级"];
+[param setRoleProfession:@"玩家的角色职业，没有可传空字符串"];
 // ROLE_EVENT_TYPE角色事件类型:
 // ROLE_EVENT_TYPE_CREATE           创角
 // ROLE_EVENT_TYPE_ENTERGAME        进入游戏
 // ROLE_EVENT_TYPE_LEVELUPGRADE     升级
-ROLE_EVENT_TYPE type = ROLE_EVENT_TYPE_CREATE;
+[param setRoleEventType:ROLE_EVENT_TYPE_CREATE];
 // 等级升级上报
-[[IctitanUnionSDK shareInstance] reportRoleInfo:type andServerId:serverId andServerName:serverName andRoleId:roleId andRoleName:roleName andProfession:profession andLevel:level];
+[[IctitanUnionSDK shareInstance] reportRoleInfo:param];
 ```
 
 #### 2.6 支付
