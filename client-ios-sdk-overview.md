@@ -290,7 +290,7 @@ NSString *level = @"角色等级";
 // ROLE_EVENT_TYPE_LEVELUPGRADE     升级
 ROLE_EVENT_TYPE type = ROLE_EVENT_TYPE_CREATE;
 // 等级升级上报
-[[IctitanUnionSDK shareInstance] roleLevelUpgrade:type andServerId:serverId andServerName:serverName andRoleId:roleId andRoleName:roleName andProfession:profession andLevel:level];
+[[IctitanUnionSDK shareInstance] reportRoleInfo:type andServerId:serverId andServerName:serverName andRoleId:roleId andRoleName:roleName andProfession:profession andLevel:level];
 ```
 
 #### 2.6 支付
