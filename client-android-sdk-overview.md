@@ -107,6 +107,12 @@ public class GameProxyApplication implements IIctitanUnionApplicationListener {
 - <span style="color:red">删除隐私敏感权限</span>：`android.permission.READ_PHONE_STATE`（GooglePlay禁止获取imei）
 - 文件操作请在<span style="color:red">应用私有目录</span>中进行，避免在SD卡公共目录中进行文件读写操作（可以避免申请外部存储权限）
 
+3、增加Activity界面的声明
+
+```xml
+<activity android:name="com.ictitan.union.view.HelpActivity" android:theme="@android:style/Theme.Translucent.NoTitleBar.Fullscreen" />
+```
+
 #### 1.2 资源配置
 
 配置游戏各像素icon图标，分别在**drawable-hdpi**、**drawable-ldpi**、**drawable-mdpi**、**drawable-xhdpi**、**drawable-xxhdpi**、**drawable-xxxhdpi**下配置对应像素为**72\*72**、**36\*36**、**48\*48**、**96\*96**、**144\*144**、**192\*192**的游戏icon，注意：icon像素必须匹配，drawable中不添加游戏icon
