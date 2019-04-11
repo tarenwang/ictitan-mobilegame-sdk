@@ -123,6 +123,7 @@
     [[IctitanUnionSDK shareInstance] applicationDidBecomeActive:application];
 }
 
+// 如果iOS SDK版本大于或等于9
 - (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *_Nullable))restorationHandler {
     return [[IctitanUnionSDK shareInstance] continueUserActivity:userActivity restorationHandler:restorationHandler];
 }
