@@ -1,11 +1,18 @@
 # iOS SDK 接入
 
+**修改记录**
+
+| 修订号   | 修改描述       | 修改日期       |
+| ----- | -------- |  ---------- |
+| 1.0.0 | 初稿完成       | 2019-03-22 |
+| 1.1.0 | 删除配置手机App白名单、配置手机App跳转URLTypes；增加continueUserActivity重新方法       | 2019-04-11 |
+
 本文为iOS客户端接入本SDK的使用教程，只涉及SDK的使用方法，默认读者已经熟悉IDE的基本使用方法（本文以Xcode为例），以及具有相应的编程知识基础等。
 
 ### 准备阶段
 
 - 需要先将游戏内的可购买商品列表发送给发行商，物品属性包含物品id、物品价格、物品在游戏中对应的点数、物品描述等
-- 发行商像开发商提供`appId`、`appSecret`、`channelId`、`initUrl`等配置信息
+- 发行商向开发商提供`appId`、`appSecret`、`channelId`、`initUrl`等配置信息
 
 ### 一、游戏配置
 
@@ -46,74 +53,6 @@
 
 在`TARGETS -> Info -> Custom iOS Target Properties`中添加`Localized resources can be mixed`和`Privacy - Photo Library Usage Description`，并设置`Allow Arbitrary Loads`为`YES`
 
-**配置手机App白名单**
-
-在`TARGETS -> Info -> Custom iOS Target Properties`中添加`LSApplicationQueriesSchemes`的数组，并为它添加以下Item：
-
-![](assets/ios/8959389C-633E-4964-A829-E4E0ED6156AE.png)
-
-源码方式添加如下：
-
-```xml
-<key>LSApplicationQueriesSchemes</key>
-<array>
-    <string>fbapi</string>
-    <string>fbapi20130214</string>
-    <string>fbapi20130410</string>
-    <string>fbapi20130702</string>
-    <string>fbapi20131010</string>
-    <string>fbapi20131219</string>   
-    <string>fbapi20140410</string>
-    <string>fbapi20140116</string>
-    <string>fbapi20150313</string>
-    <string>fbapi20150629</string>
-    <string>fbauth</string>
-    <string>fbauth2</string>
-    <string>fb-messenger-api</string>
-    <string>fb-messenger-api20140430</string>
-    <string>fb-messenger-platform-20150128</string>
-    <string>fb-messenger-platform-20150218</string>
-    <string>fb-messenger-platform-20150305</string>
-    <string>fbshareextension</string>
-</array>
-```
-
-**配置手机App跳转 URL Types**
-
-请在`TARGETS -> Info -> URL Types`中添加以下两项:
-
-| identifier     | URL Schemes   |
-| -------------- | ------------- |
-| weixin         | wx+AppID      |
-| tencentopenapi | tencent+AppID |
-
-![](assets/ios/32621720-54BE-4415-984E-9F0051661F6F.png)
-
-源码方式添加如下：
-
-```xml
-<key>CFBundleURLTypes</key>
-<array>
-    <dict>
-        <key>CFBundleURLSchemes</key>
-        <array>
-            <string>fb{your-app-id}</string>
-        </array>
-    </dict>
-</array>
-<key>FacebookAppID</key>
-<string>{your-app-id}</string>
-<key>FacebookDisplayName</key>
-<string>{your-app-name}</string>
-<key>LSApplicationQueriesSchemes</key>
-<array>
-    <string>fbapi</string>
-    <string>fb-messenger-share-api</string>
-    <string>fbauth2</string>
-    <string>fbshareextension</string>
-</array>
-```
-
 #### 1.2 通用配置
 
 **配置全屏**
@@ -140,8 +79,6 @@
 
 ![](assets/ios/0F05255B-A17A-42A9-8230-D2D1F583BFF1.png)
 
-![](assets/ios/F8CC82BA-2310-4841-8FD3-F9D4DBC5ED85.png)
-
 ### 二、聚合SDK接入说明
 
 #### 2.1 初始化
@@ -152,6 +89,7 @@
 
 ```objective-c
 #import "IctitanUnionSDK.h"
+#import "ITTType.h"
 ```
 
 在`(BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions`插入如下代码:
@@ -159,27 +97,34 @@
 ```objective-c
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions {
     ...
-    // 聚合配置
-    IctitanUnionGlobalConfig *config = [[IctitanUnionGlobalConfig alloc] init];
-    // 调试状态 (1-调试, 0-正常)
-    config.debugStatus = ICTDebugStatusOn;
-
-    [[IctitanUnionSDK shareInstance] init:config];
+    //ITTDebugStatusOn 开启调试
+    //ITTDebugStatusOff 关闭调试，正式上线时候请关闭日志
+    [[IctitanUnionSDK sharedInstance] init:ITTDebugStatusOn];
 
     ...
     return YES;
 }
 ```
 
-重写AppDelegate的openURL以及applicationDidBecomeActive
+重写AppDelegate的openURL、applicationDidBecomeActive以及continueUserActivity
 
 ```objective-c
-- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
-    return [[IctitanUnionSDK shareInstance] handleOpenURL:url sourceApplication:sourceApplication annotation:annotation];
+// 如果iOS SDK版本小于9
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url sourceApplication:(NSString *)sourceApplication annotation:(id)annotation {
+    return [[IctitanUnionSDK sharedInstance application:application openURL:url sourceApplication:sourceApplication annotation:annotation];
 }
+
+// 如果iOS SDK版本大于或等于9
+- (BOOL)application:(UIApplication *)application openURL:(NSURL *)url options:(NSDictionary<UIApplicationOpenURLOptionsKey,id> *)options {
+    return [[IctitanUnionSDK sharedInstance] application:application openURL:url options:options];
+} 
 
 - (void)applicationDidBecomeActive:(UIApplication *)application {
     [[IctitanUnionSDK shareInstance] applicationDidBecomeActive:application];
+}
+
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *_Nullable))restorationHandler {
+    return [[IctitanUnionSDK shareInstance] continueUserActivity:userActivity restorationHandler:restorationHandler];
 }
 ```
 
@@ -188,13 +133,13 @@
 在游戏界面显示时，给SDK设置可以依附的UIViewController对象，并在该类文件增加IctitanUnionDelegate协议，请在此协议中实现游戏的初始化、登录、注销、支付、分享功能
 
 ```objective-c
-#import "UnionSdkCallbackCode.h"
 #import "IctitanUnionSDK.h"
 #import "IctitanUnionDelegate.h"
-#import "UnionSdkUser.h"
+#import "ITTUser.h"
+#import "ITTType.h"
 
 @interface ViewController () <IctitanUnionDelegate>
-@property (nonatomic) UnionSdkUser *user;
+@property (nonatomic, strong) ITTUser *user;
 @end
 
 @implementation ViewController
@@ -207,35 +152,66 @@
 
 // 初始化回调
 - (void)IctitanUnionInitCallback:(UnionSdkCallbackCode)code andMessage:(NSString *)message {
-    ...
+    if (ITTCodeSuc == code) {
+        //初始化成功
+        NSLog(@"初始化成功");
+    } else if (ITTCodeFail == code) {
+        //初始化失败
+        NSLog(@"初始化失败，msg=%@",message);
+    }
 }
 
 // 登录回调
 - (void)IctitanUnionLoginCallback:(UnionSdkCallbackCode)code andMessage:(NSString *)message andUser:(UnionSdkUser *)user {
-    _user = user;
-    // user.accountId   帐号唯一标识
-    // user.token       登陆令牌
-    // user.channelId   渠道id
-    // user.appId       游戏id
-    // user.avatarUrl   用户头像URL
-    // user.nickname    昵称
-    // user.type        帐号类型(facebook,google,apple,guest,amazon)    
+    if (ITTCodeSuc == code) {
+        //登录成功
+        NSLog(@"登录成功");
+        _user = user;
+        // user.accountId   帐号唯一标识
+        // user.token       登陆令牌
+        // user.channelId   渠道id
+        // user.appId       游戏id
+        // user.avatarUrl   用户头像URL
+        // user.nickname    昵称
+        // user.type        帐号类型(facebook,google,apple,guest,amazon)
+    } else if (ITTCodeFail == code) {
+        //登录失败
+        NSLog(@"登录失败：%@", message);
+    }
 }
 
 // 注销回调
 - (void)IctitanUnionLogoutCallback:(UnionSdkCallbackCode)code andMessage:(NSString *)message {
-    ...
-    _user = nil;
+    if (ITTCodeSuc == code) {
+        //注销成功
+        NSLog(@"注销成功");
+        _user = nil;
+    } else if (ITTCodeFail == code) {
+        //注销失败
+        NSLog(@"注销失败，msg=%@", message);
+    }
 }
 
 // 支付回调
 - (void)IctitanUnionLogoutCallback:(UnionSdkCallbackCode)code andMessage:(NSString *)message {
-    ...
+    if (ITTCodeSuc == code) {
+        //支付成功，订单数据通过服务端接口回调
+        NSLog(@"支付成功");
+    } else if (ITTCodeFail == code) {
+        //支付失败
+        NSLog(@"支付失败，msg=%@", message);
+    }
 }
 
 // 分享回调
 - (void)IctitanUnionShareToSocialNetworkCallback:(UnionSdkCallbackCode)code andMessage:(NSString *)message {
-    ...
+    if (ITTCodeSuc == code) {
+        //分享成功
+        NSLog(@"分享成功");
+    } else if (ITTCodeFail == code){
+        //分享失败
+        NSLog(@"分享失败，msg=%@", message);
+    }
 }
 
 @end
@@ -279,19 +255,29 @@
 
 当玩家创建角色、进入游戏、角色等级升级的时候需要上报新角色信息
 
+引入header文件
+
 ```objective-c
-IctitanUnionRoleInfoParam *param = [[IctitanUnionRoleInfoParam alloc] init];
+#import "IctitanUnionSDK.h"
+#import "ITTRole.h"
+#import "ITTType.h"
+```
+
+事件中插入如下代码：
+
+```objective-c
+ITTRole *param = [[ITTRole alloc] init];
 [param setServerId:@"玩家所在服务器ID，不可为空或0"];
 [param setServerName:@"玩家所在服务器名"];
 [param setRoleId:@"玩家的游戏角色ID"];
 [param setRoleName:@"玩家的游戏角色名"];
 [param setRoleLevel:@"玩家的角色等级"];
 [param setRoleProfession:@"玩家的角色职业，没有可传空字符串"];
-// ROLE_EVENT_TYPE角色事件类型:
-// ROLE_EVENT_TYPE_CREATE           创角
-// ROLE_EVENT_TYPE_ENTERGAME        进入游戏
-// ROLE_EVENT_TYPE_LEVELUPGRADE     升级
-[param setRoleEventType:ROLE_EVENT_TYPE_CREATE];
+// ITTReportType角色事件类型:
+// ITTROLE_EVENT_CREATE           创角
+// ITTROLE_EVENT_ENTERGAME        进入游戏
+// ITTROLE_EVENT_LEVELUPGRADE     升级
+[param setSendType:ITTROLE_EVENT_ENTERGAME];
 // 等级升级上报
 [[IctitanUnionSDK shareInstance] reportRoleInfo:param];
 ```
@@ -320,7 +306,7 @@ IctitanUnionPaymentParam *param = [[IctitanUnionPaymentParam alloc] init];
 [param setRoleLevel:@"玩家的角色等级"];
 [param setRoleProfession:@"玩家的角色职业，没有可传空字符串"];
 [param setProductId:@"游戏中商品ID"];
-[param setDescription:@"商品描述"];
+[param setProductDescription:@"商品描述"];
 [param setAmount:@"购买该商品所需金额，如：1.0"];
 [param setCurrency:@"金额对应的币种，如：USD"];
 [param setExtra:@"支付成功时原样返回至游戏服务器的额外参数"];

@@ -1,11 +1,17 @@
 # Android SDK 接入
 
+**修改记录**
+
+| 修订号   | 修改描述       | 修改日期       |
+| ----- | -------- |  ---------- |
+| 1.0.0 | 初稿完成       | 2019-03-22 |
+
 本文为Android客户端接入本SDK的使用教程，只涉及SDK的使用方法，默认读者已经熟悉IDE的基本使用方法（本文以AndroidStudio为例），以及具有相应的编程知识基础等。
 
 ### 准备阶段
 
 - 需要先将游戏内的可购买商品列表发送给发行商，物品属性包含物品id、物品价格、物品在游戏中对应的点数、物品描述等
-- 发行商像开发商提供`appId`、`appSecret`、`channelId`、`initUrl`等配置信息
+- 发行商向开发商提供`appId`、`appSecret`、`channelId`、`initUrl`等配置信息
 
 ### 一、游戏配置
 
@@ -89,6 +95,7 @@ public class GameProxyApplication implements IIctitanUnionApplicationListener {
 ```xml
 <meta-data android:name="ICTITAN_UNION_APP_ID" android:value="{AppId}" />
 <meta-data android:name="ICTITAN_UNION_CHANNEL_ID" android:value="{ChannelId}" />
+<meta-data android:name="ICTITAN_UNION_INIT_URL" android:value="{InitUrl}" />
 ```
 
 导入`ictitan-union-xxx.jar`、`httpcore-4.4.9.jar`和`httpclient-4.5.5.jar`并引入该jar包
