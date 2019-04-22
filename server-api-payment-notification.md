@@ -23,7 +23,6 @@ POST
 |字段名|是否必填|类型|说明|
 |---|---|---|---|
 |time|是|int|当前时间(10位时间戳)|
-|type|是|int|付款方式<br />1 Google Play <br /> 2 Apple Store <br />3 游戏内第三方充值 <br />4 游戏外第三方充值(游戏官网充值) <br />5 韩国Onestore支付(等同于GooglePlay付款方式)|
 |paymentDate|是|int|交易时间（10位时间戳）|
 |tradeId|是|string|发行商交易号(游戏商判断重复交易)|
 |productId|否|string|商品ID(官网充值为空)|
