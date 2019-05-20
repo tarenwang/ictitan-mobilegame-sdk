@@ -8,6 +8,7 @@
 | 1.1.0 | 删除配置手机App白名单、配置手机App跳转URLTypes；增加continueUserActivity重新方法       | 2019-04-11 |
 | 1.1.1 | 修改2.2回调接口里登录回调方法的参数user类型为ITTUser  | 2019-05-20 |
 | 1.1.2 | 修改2.2回调接口里支付回调的方法名  | 2019-05-20 |
+| 1.1.3 | 修改2.1初始化接口里continueUserActivity方法的参数类型  | 2019-05-20 |
 
 本文为iOS客户端接入本SDK的使用教程，只涉及SDK的使用方法，默认读者已经熟悉IDE的基本使用方法（本文以Xcode为例），以及具有相应的编程知识基础等。
 
@@ -126,9 +127,10 @@
 }
 
 // 如果iOS SDK版本大于或等于9
-- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray *_Nullable))restorationHandler {
-    return [[IctitanUnionSDK shareInstance] continueUserActivity:userActivity restorationHandler:restorationHandler];
+- (BOOL)application:(UIApplication *)application continueUserActivity:(NSUserActivity *)userActivity restorationHandler:(void (^)(NSArray<id<UIUserActivityRestoring>> * _Nullable))restorationHandler{
+    return [[IctitanUnionSDK sharedInstance] application:application continueUserActivity:userActivity restorationHandler:restorationHandler];
 }
+
 ```
 
 #### 2.2 回调接口
