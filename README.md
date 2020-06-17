@@ -14,4 +14,5 @@
 
 1. [Android SDK 接入](client-android-sdk-overview.md)
 2. [iOS SDK 接入](client-ios-sdk-overview.md)
-3. [H5微端 SDK 接入](client-h5-sdk-overview.md)
+3. [H5 SDK 接入](client-h5-sdk-overview.md)
+4. [H5手游壳包资源接入说明](client-h5shell-overview.html)
