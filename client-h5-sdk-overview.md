@@ -5,6 +5,7 @@
 | 修订号   | 修改描述       | 修改日期       |
 | ----- | -------- |  ---------- |
 | 1.0.0 | 初稿完成       | 2020-06-17 |
+| 1.0.1 | 事件回调中登录返回参数修改       | 2020-06-19 |
 
 本文为H5手游接入本SDK的使用教程，只涉及SDK的使用方法，默认游戏研发商已经熟悉游戏IDE的基本使用方法，以及具有相应的Javascript编程知识基础等。
 
@@ -75,16 +76,13 @@ window.addEventListener(ICT_CONST.EVENT_NAME, function(e) {
             break;
         case ICT_EVENT_ACTION.ACTION_LOGIN_SUCCESS: // 登录成功
             var user = e.data;
-            var user_info = 'userId=' + user.userId + ","
-                + 'channelUserId=' + user.channelUserId + ","
-                + 'appId=' + user.appId + ","
-                + 'channelId=' + user.channelId + ","
-                + 'token=' + user.token + ","
-                + 'channelToken=' + user.channelToken + ","
-                + 'channelUsername=' + user.channelUsername + ","
-                + 'channelNickname=' + user.channelNickname + ","
-                + 'avatarUrl=' + user.avatarUrl + ","
-                + 'extension=' + user.extension;
+            var user_info = 'accountId=' + user.accountId + ","  // 帐号ID
+                + 'appId=' + user.appId + ","  // 应用ID
+                + 'channelId=' + user.channelId + ","  // 渠道ID
+                + 'token=' + user.token + ","  // 帐号登录token
+                + 'nickname=' + user.nickname + ","  // 昵称
+                + 'avatarUrl=' + user.avatarUrl + ","  // 头像地址
+                + 'type=' + user.type;  // 帐号类型(facebook,google,apple,guest,amazon)
             console.log("IctitanSDK.login登录成功, code=" + e.code + ", msg=" + e.msg);
             console.log("帐号信息：" + user_info);
             break;
