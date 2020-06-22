@@ -24,7 +24,7 @@
 |appSecret|发行聚合SDK针对appId分配的唯一密钥，用于服务端登录验证和内购商品付款通知时的验签|
 |channelId|渠道ID，母包测试时请使用`19001`|
 |sdkDomain|聚合SDK的服务端API所部署的域名|
-|assetCDN|H5 SDK相关文件存储的CDN地址，母包测试时可为空|
+|assetCDN|H5 SDK相关文件存储的CDN地址，母包测试时需要使用`http://asset.tarenwang.net/ictitan/sdk`|
 |js|H5 SDK加载的渠道适配js文件的文件名，母包测试时请使用`tong_h5`|
 
 ### 一、游戏配置
@@ -46,13 +46,6 @@
 #### SDK文件的引入
 
 在游戏主体html中引入`ictitansdk.min.js`文件，具体引入代码如下：
-
-```html
-<!-- 具体src请根据html与sdk文件的相对地址决定 -->
-<script src="./sdk/ictitansdk.min.js"></script>
-```
-
-或者引入在线测试地址
 
 ```html
 <script src="http://asset.tarenwang.net/ictitan/sdk/ictitansdk.min.js"></script>
