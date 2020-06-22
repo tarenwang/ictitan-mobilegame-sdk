@@ -120,8 +120,8 @@ window.addEventListener(ICT_CONST.EVENT_NAME, function(e) {
 
 ```javascript
 var config = {
-    'sdkDomain' : 'xxx.api.usdk.ictitan.com',
-    'assetCDN' : '',
+    'sdkDomain' : 'mlbb.api.usdk.ictitan.com',
+    'assetCDN' : 'http://asset.tarenwang.net/ictitan/sdk',
 }
 
 IctitanSDK.init(config);
