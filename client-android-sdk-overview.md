@@ -5,6 +5,7 @@
 | 修订号   | 修改描述       | 修改日期       |
 | ----- | -------- |  ---------- |
 | 1.0.0 | 初稿完成       | 2019-03-22 |
+| 1.1.0 | 替换ictitan-okhttp.jar包     | 2020-10-15 |
 
 本文为Android客户端接入本SDK的使用教程，只涉及SDK的使用方法，默认读者已经熟悉IDE的基本使用方法（本文以AndroidStudio为例），以及具有相应的编程知识基础等。
 
@@ -98,7 +99,7 @@ public class GameProxyApplication implements IIctitanUnionApplicationListener {
 <meta-data android:name="ICTITAN_UNION_INIT_URL" android:value="{InitUrl}" />
 ```
 
-导入`ictitan-union-xxx.jar`、`httpcore-4.4.9.jar`和`httpclient-4.5.5.jar`并引入该jar包
+导入`ictitan-union-xxx.jar`、`ictitan-okhttp.jar`并引入该jar包
 
 **其他注意事项**
 
